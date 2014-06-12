@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013 The CyanogenMod Project
+ * Copyright (C) 2014 The CyanogenMod Project
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -46,8 +46,6 @@ public class TorchSwitch extends BroadcastReceiver {
         // Unload intent extras if they exist:
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         boolean bright = intent.getBooleanExtra("bright", prefs.getBoolean("bright", false));
-        boolean strobe = intent.getBooleanExtra("strobe", prefs.getBoolean("strobe", false));
-        int period = intent.getIntExtra("period", 200);
 
         Intent i = new Intent(context, TorchService.class);
         if (action.equals(TOGGLE_FLASHLIGHT)) {
@@ -55,14 +53,10 @@ public class TorchSwitch extends BroadcastReceiver {
                 context.stopService(i);
             } else {
                 i.putExtra("bright", bright);
-                i.putExtra("strobe", strobe);
-                i.putExtra("period", period);
                 context.startService(i);
             }
         } else if (action.equals(FLASHLIGHT_ON)) {
             i.putExtra("bright", bright);
-            i.putExtra("strobe", strobe);
-            i.putExtra("period", period);
             context.startService(i);
         } else if (action.equals(FLASHLIGHT_OFF)) {
             context.stopService(i);
